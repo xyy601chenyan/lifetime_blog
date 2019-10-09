@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>XyyBlog</title>
+    <title>Lifetime Growth</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container-fluid">
+      <%= render "common/navbar" %>
+      <%= yield %>
+    </div>
+      <%= render "common/footer" %>
   </body>
 </html>
