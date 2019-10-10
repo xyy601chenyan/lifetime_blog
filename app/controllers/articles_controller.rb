@@ -28,7 +28,7 @@ class ArticlesController < ApplicationController
   def update
     if @article.update(article_params)
       flash[:notice] = "已更新文章"
-      redirect_to article_path(@article)
+      redirect_to article_path(@article.token)
     else
       render "edit"
     end
@@ -47,6 +47,6 @@ class ArticlesController < ApplicationController
   end
 
   def find_article
-    @article = Article.find(params[:id])
+    @article = Article.find_by_token!(params[:id])
   end
 end

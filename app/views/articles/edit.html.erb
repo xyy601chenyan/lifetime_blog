@@ -2,7 +2,7 @@
   <h2>编辑文章</h2>
 
   <hr>
-  <%= form_for @article do |f| %>
+  <%= form_for @article,url: article_path(@article.token) do |f| %>
     标题
     <%= f.text_field :title %>
     <br>
