@@ -20,7 +20,7 @@ class ArticlesController < ApplicationController
     @article = current_user.articles.new(article_params)
     if @article.save
       flash[:notice] = "成功创建文章"
-      redirect_to articles_path
+      redirect_to article_path(@article.token)
     else
       render "new"
     end
