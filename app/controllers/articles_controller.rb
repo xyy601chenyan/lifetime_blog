@@ -2,7 +2,13 @@ class ArticlesController < ApplicationController
   before_action :authenticate_user!,only: [:new,:create,:edit,:update,:destroy]
   before_action :find_article,only: [:show,:edit,:update,:destroy]
 
+  #显示公开发布的文章
   def index
+    @articles = Article.published
+  end
+
+  #显示所有文章，包括：公开、草稿和私密类型的文章
+  def writer
     @articles = Article.all
   end
 
@@ -44,7 +50,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title,:description)
+    params.require(:article).permit(:title,:description,:status)
   end
 
   def find_article
