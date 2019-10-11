@@ -7,11 +7,11 @@ class ArticlesController < ApplicationController
   end
 
   def new
-    @article = Article.new
+    @article = current_user.articles.new
   end
 
   def create
-    @article = Article.new(article_params)
+    @article = current_user.articles.new(article_params)
     if @article.save
       flash[:notice] = "成功创建文章"
       redirect_to articles_path
@@ -48,6 +48,6 @@ class ArticlesController < ApplicationController
   end
 
   def find_article
-    @article = Article.find_by_token!(params[:id])
+    @article = current_user.articles.find_by_token!(params[:id])
   end
 end
