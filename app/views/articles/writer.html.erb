@@ -22,6 +22,10 @@
         <td><%= article.description%></td>
         <td><%= article.created_at%></td>
         <td>
+          <%= link_to("上移",reorder_article_path(article.token,:position => :up),method: :post,class: "btn btn-default") %>
+          <%= link_to("下移",reorder_article_path(article.token,:position => :down),method: :post,class: "btn btn-default") %>
+          <%= link_to("置顶",reorder_article_path(article.token,position: :first),method: :post,class: "btn btn-default") %>
+          <%= link_to("置底",reorder_article_path(article.token,position: :last),method: :post,class: "btn btn-default") %>
           <%= link_to("编辑",edit_article_path(article.token),class: "btn btn-sm btn-default")%>
           <%= link_to("删除",article_path(article.token),class: "btn btn-sm btn-default",method: :delete,data: {confirm: "确定要删除该篇文章吗?"})%>
         </td>

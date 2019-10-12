@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_11_095834) do
+ActiveRecord::Schema.define(version: 2019_10_12_092549) do
 
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 2019_10_11_095834) do
     t.string "token"
     t.integer "user_id"
     t.string "status", default: "draft"
+    t.integer "row_order"
+    t.index ["row_order"], name: "index_articles_on_row_order"
     t.index ["token"], name: "index_articles_on_token", unique: true
   end
 

@@ -7,5 +7,9 @@ Rails.application.routes.draw do
       get :writer
       post :bulk_operate
     end
+
+    member do
+      post :reorder
+    end
   end
 end

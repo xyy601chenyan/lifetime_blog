@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!,only: [:new,:create,:edit,:update,:destroy]
-  before_action :find_article,only: [:show,:edit,:update,:destroy]
+  before_action :authenticate_user!,except: [:index,:show]
+  before_action :find_article,only: [:show,:edit,:update,:destroy,:reorder]
 
   #显示公开发布的文章
   def index
@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
 
   #显示所有文章，包括：公开、草稿和私密类型的文章
   def writer
-    @articles = Article.all
+    @articles = Article.rank(:row_order).all
   end
 
   def new
@@ -65,6 +65,13 @@ class ArticlesController < ApplicationController
         flash[:alert] = "已删除#{total}篇文章"
       end
     end
+
+    redirect_to writer_articles_path
+  end
+
+  def reorder
+    @article.row_order_position = params[:position]
+    @article.save
 
     redirect_to writer_articles_path
   end
