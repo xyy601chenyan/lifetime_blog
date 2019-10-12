@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :articles do
     collection do
       get :writer
+      post :bulk_operate
     end
   end
 end

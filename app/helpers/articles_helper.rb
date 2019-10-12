@@ -12,4 +12,14 @@ module ArticlesHelper
     end
   end
 
+  #转换显示按钮的名称
+  #def translate_button(button_name)
+  #  case button_name
+  #  when :bulk_delete
+  #    "批量删除"
+  #  when :bulk_update
+  #    "批量更新"
+  #  end
+  #end
+
 end

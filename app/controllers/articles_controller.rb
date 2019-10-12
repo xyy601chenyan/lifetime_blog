@@ -47,6 +47,28 @@ class ArticlesController < ApplicationController
     redirect_to articles_path
   end
 
+  #批量更新和批量删除
+  def bulk_operate
+    total = 0
+    Array(params[:ids]).each do |article_id|
+      article = Article.find_by_token!(article_id)
+
+      if params[:commit].to_sym == :bulk_update
+        article.status = params[:status]
+        if article.save
+          total += 1
+        end
+        flash[:notice] = "已更新#{total}篇文章"
+      elsif params[:commit].to_sym == :bulk_delete
+        article.destroy
+        total += 1
+        flash[:alert] = "已删除#{total}篇文章"
+      end
+    end
+
+    redirect_to writer_articles_path
+  end
+
   private
 
   def article_params

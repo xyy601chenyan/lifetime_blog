@@ -2,9 +2,11 @@
   <div class="group">
     <%= link_to("新增文章",new_article_path,class: "btn btn-danger pull-right") %>
   </div>
+  <%= form_tag bulk_operate_articles_path, class: "form-inline" do %>
 <table class="table table-hover">
   <thead>
     <tr>
+      <th><%= check_box_tag "全选","1",false,id: "toggle_all" %></th>
       <td>#</td>
       <td>标题</td>
       <td>正文</td>
@@ -14,6 +16,7 @@
   <tbody>
     <% @articles.each do |article| %>
       <tr>
+        <td><%= check_box_tag "ids[]",article.token %></td>
         <td>#</td>
         <td><%= link_to(article.title,article_path(article.token))%></td>
         <td><%= article.description%></td>
@@ -26,4 +29,23 @@
     <% end %>
   </tbody>
 </table>
+<p>
+<!-- 这三个select_tag和submit_tag后续将使用i18n和zh-CN语系模板转成中文，使代码保持DRY-->
+<%= select_tag :status,options_for_select(Article::STATUS.map {|s| (s)},class: "form-control")%>
+<%= submit_tag "bulk_update",class: "btn btn-primary",data: {confirm: "确定批次更新文章？"}%>
+<%= submit_tag "bulk_delete",class: "btn btn-danger",data: {confirm: "确定批次删除文章？"}%>
+</p>
+<% end %>
 </div>
+
+<script>
+$("#toggle_all").click(function(){
+  if ($(this).prop("checked")){
+    $("input[name='ids[]']").prop("checked",true);
+  }
+  else
+  {
+    $("input[name='ids[]']").prop("checked",false);
+  }
+})
+</script>
