@@ -6,19 +6,22 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th><%= check_box_tag "全选","1",false,id: "toggle_all" %></th>
-      <td>#</td>
-      <td>标题</td>
-      <td>正文</td>
-      <td>创建时间</td>
+      <th><%= check_box_tag "全选","1",false,id: "toggle_all" %></td>
+      <th>#</th>
+      <th>标题</th>
+      <th>正文</th>
+      <th>创建时间</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="sortable">
     <% @articles.each do |article| %>
-      <tr>
+      <tr data-reorder-url="<%= reorder_article_path(article.token) %>">
         <td><%= check_box_tag "ids[]",article.token %></td>
         <td>#</td>
-        <td><%= link_to(article.title,article_path(article.token))%></td>
+        <td>
+          <span class="sortable_icon">☰</span>
+          <%= link_to(article.title,article_path(article.token))%>
+        </td>
         <td><%= article.description%></td>
         <td><%= article.created_at%></td>
         <td>
@@ -51,5 +54,25 @@ $("#toggle_all").click(function(){
   {
     $("input[name='ids[]']").prop("checked",false);
   }
-})
+});
+
+$(".sortable").sortable({
+  axis: 'y',
+  items: 'tr',
+  cursor: 'move',
+  //handle: ".sortable_icon',//限定只有放在☰图标上才能拖动
+  stop: function(e,ui){
+    ui.item.children('td').effect('highlight',{},1000)
+  },
+  update: function(e,ui){
+    reorder_url = ui.item.data('reorder-url')
+    position = ui.item.index()
+    $.ajax({
+      type: 'POST',
+      url: reorder_url,
+      dataType: 'json',
+      data: {position: position}
+    })
+  }
+});
 </script>

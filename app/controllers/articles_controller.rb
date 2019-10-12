@@ -73,7 +73,11 @@ class ArticlesController < ApplicationController
     @article.row_order_position = params[:position]
     @article.save
 
-    redirect_to writer_articles_path
+    respond_to do |format|
+      format.html {redirect_to writer_articles_path}
+      format.json {render json: {message: "ok"}}
+    end
+
   end
 
   private
