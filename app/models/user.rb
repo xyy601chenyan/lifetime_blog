@@ -8,4 +8,8 @@ class User < ApplicationRecord
   #       :recoverable, :rememberable, :validatable
 
   has_many :articles
+
+  def is_admin?
+    self.role == "admin"
+  end
 end

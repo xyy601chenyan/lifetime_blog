@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authenticate_user!,except: [:index,:show]
+  before_action :require_admin!,except: [:index,:show]
   before_action :find_article,only: [:show,:edit,:update,:destroy,:reorder]
 
   #显示公开发布的文章
@@ -88,5 +89,12 @@ class ArticlesController < ApplicationController
 
   def find_article
     @article = current_user.articles.find_by_token!(params[:id])
+  end
+
+  def require_admin!
+    unless current_user.is_admin?
+      flash[:alert] = "您没有权限进行该操作"
+      redirect_to root_path
+    end
   end
 end

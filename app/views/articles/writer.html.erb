@@ -1,6 +1,8 @@
 <div class="col-md-12">
   <div class="group">
-    <%= link_to("新增文章",new_article_path,class: "btn btn-danger pull-right") %>
+    <% if current_user.is_admin? %>
+      <%= link_to("新增文章",new_article_path,class: "btn btn-danger pull-right") %>
+    <% end %>
   </div>
   <%= form_tag bulk_operate_articles_path, class: "form-inline" do %>
 <table class="table table-hover">
@@ -25,12 +27,14 @@
         <td><%= article.description%></td>
         <td><%= article.created_at%></td>
         <td>
-          <%= link_to("上移",reorder_article_path(article.token,:position => :up),method: :post,class: "btn btn-default") %>
-          <%= link_to("下移",reorder_article_path(article.token,:position => :down),method: :post,class: "btn btn-default") %>
-          <%= link_to("置顶",reorder_article_path(article.token,position: :first),method: :post,class: "btn btn-default") %>
-          <%= link_to("置底",reorder_article_path(article.token,position: :last),method: :post,class: "btn btn-default") %>
-          <%= link_to("编辑",edit_article_path(article.token),class: "btn btn-sm btn-default")%>
-          <%= link_to("删除",article_path(article.token),class: "btn btn-sm btn-default",method: :delete,data: {confirm: "确定要删除该篇文章吗?"})%>
+          <% if current_user.is_admin? %>
+            <%= link_to("上移",reorder_article_path(article.token,:position => :up),method: :post,class: "btn btn-default") %>
+            <%= link_to("下移",reorder_article_path(article.token,:position => :down),method: :post,class: "btn btn-default") %>
+            <%= link_to("置顶",reorder_article_path(article.token,position: :first),method: :post,class: "btn btn-default") %>
+            <%= link_to("置底",reorder_article_path(article.token,position: :last),method: :post,class: "btn btn-default") %>
+            <%= link_to("编辑",edit_article_path(article.token),class: "btn btn-sm btn-default")%>
+            <%= link_to("删除",article_path(article.token),class: "btn btn-sm btn-default",method: :delete,data: {confirm: "确定要删除该篇文章吗?"})%>
+          <% end %>
         </td>
       </tr>
     <% end %>
@@ -38,9 +42,12 @@
 </table>
 <p>
 <!-- 这三个select_tag和submit_tag后续将使用i18n和zh-CN语系模板转成中文，使代码保持DRY-->
-<%= select_tag :status,options_for_select(Article::STATUS.map {|s| (s)},class: "form-control")%>
-<%= submit_tag "bulk_update",class: "btn btn-primary",data: {confirm: "确定批次更新文章？"}%>
-<%= submit_tag "bulk_delete",class: "btn btn-danger",data: {confirm: "确定批次删除文章？"}%>
+
+<% if current_user.is_admin? %>
+  <%= select_tag :status,options_for_select(Article::STATUS.map {|s| (s)},class: "form-control")%>
+  <%= submit_tag "bulk_update",class: "btn btn-primary",data: {confirm: "确定批次更新文章？"}%>
+  <%= submit_tag "bulk_delete",class: "btn btn-danger",data: {confirm: "确定批次删除文章？"}%>
+<% end %>
 </p>
 <% end %>
 </div>
