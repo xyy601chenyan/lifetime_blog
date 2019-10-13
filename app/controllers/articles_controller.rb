@@ -88,7 +88,7 @@ class ArticlesController < ApplicationController
   end
 
   def find_article
-    @article = current_user.articles.find_by_token!(params[:id])
+    @article = Article.find_by_token!(params[:id])
   end
 
   def require_admin!
