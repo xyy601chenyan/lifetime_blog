@@ -10,11 +10,7 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if !current_user %>
-        <li>
-          <%= link_to("登录",new_user_session_path) %>
-        </li>
-      <% else %>
+      <% if current_user && current_user.is_admin? %>
         <li>
           <%= link_to("写文章",writer_articles_path) %>
         </li>
