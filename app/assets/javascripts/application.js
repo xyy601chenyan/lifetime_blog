@@ -16,5 +16,6 @@
 //= require activestorage
 //= require turbolinks
 //= require bootstrap
+//= require simplemde.min
 //= require validator.min
 //= require_tree .
