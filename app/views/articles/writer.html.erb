@@ -21,7 +21,7 @@
         <td><%= check_box_tag "ids[]",article.token %></td>
         <td>#</td>
         <td>
-          <span class="sortable_icon">☰</span>
+          <span class="sortable_icon" style="color: black;"> ☰ </span>
           <%= link_to(article.title,article_path(article.token))%>
         </td>
         <td><%= article.description%></td>
@@ -67,7 +67,7 @@ $(".sortable").sortable({
   axis: 'y',
   items: 'tr',
   cursor: 'move',
-  //handle: ".sortable_icon',//限定只有放在☰图标上才能拖动
+  handle: '.sortable_icon',//限定只有放在☰图标上才能拖动
   stop: function(e,ui){
     ui.item.children('td').effect('highlight',{},1000)
   },
